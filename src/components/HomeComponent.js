@@ -13,7 +13,7 @@ import HeaderComponent from './Header';
 console.disableYellowBox = true; // Diable Yellow Box
 
 class HomeComponent extends Component {
-  
+
   onAddFriends = () => {
     Actions.addPerson()
   }
@@ -42,12 +42,14 @@ class HomeComponent extends Component {
           raised={true}
           disabled={false}
           onPress={this.onAddFriends.bind(this)}/>
-          <Fab 
-              position='bottomRight'
-              style={{backgroundColor: '#5067FF'}}
-              onPress={() => Actions.addBill()}> 
-              <Text>Go</Text>
-          </Fab>
+          <View style={{flex: 1}}>
+            <Fab 
+                position='bottomRight'
+                style={{backgroundColor: '#5067FF'}}
+                onPress={() => Actions.bill()}> 
+            <Icon name="add" style={{color: 'yellowgreen', fontSize: 30}} />
+            </Fab>
+          </View>
       </View>
     );
   }

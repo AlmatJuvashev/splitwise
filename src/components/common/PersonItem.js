@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 //import {ListItem, CheckBox, Body} from 'native-base';
 import { ListItem } from 'react-native-elements'
 
 let HideShevron = true;
-
-
 
 
 class PersonItem extends Component {
@@ -26,12 +24,6 @@ class PersonItem extends Component {
         const IconObject = {name: 'check', color: 'green'}
         return (
             <View>
-              {/* <ListItem>
-                  <CheckBox checked={true} />
-                      <Body>
-                          <Text>{personName}</Text>
-                      </Body>
-                </ListItem> */}
                 <TouchableWithoutFeedback onPress={() => this.onPress({personName, personId})}>
                   <ListItem
                           key={personId}
@@ -44,5 +36,11 @@ class PersonItem extends Component {
           );
     }
 }
+
+const styles = StyleSheet.create({
+    personItemStyle: {
+        borderBottomWidth: 0,
+    }
+})
 
 export {PersonItem}

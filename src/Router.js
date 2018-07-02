@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Scene, Router, Actions } from 'react-native-router-flux';
+import { Scene, Router, Actions, Navigator, NavigationBar } from 'react-native-router-flux';
+import { StyleSheet } from 'react-native';
 
 import HomeComponent from './components/HomeComponent';
 import AddPerson from './components/AddPerson';
@@ -8,8 +9,11 @@ import AddBill from './components/AddBill';
 
 
 const RouterComponent = () => {
+    const { navBar, navTitle } = styles;
     return (
-      <Router>
+      <Router 
+        navigationBarStyle={navBar} 
+        titleStyle={navTitle}>
         <Scene key="root" hideNavBar>
             <Scene key="main">
                 <Scene
@@ -31,6 +35,7 @@ const RouterComponent = () => {
             </Scene>
             <Scene key="bill">
                 <Scene
+                  onLeft={() => Actions.home()}
                   key="addBill"
                   component={AddBill}
                   title="Add a bill"
@@ -40,5 +45,14 @@ const RouterComponent = () => {
       </Router>
     );
 }
+
+const styles = StyleSheet.create({
+  navBar: {
+    backgroundColor: '#00E228'
+  },
+  navTitle: {
+    color: '#fff'
+  }
+})
 
 export default RouterComponent;

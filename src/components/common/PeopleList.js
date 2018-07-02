@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList  } from 'react-native';
+import { FlatList, StyleSheet  } from 'react-native';
 import { PersonItem } from '../common';
 
 
@@ -18,6 +18,7 @@ class PeopleList extends Component   {
         const {name, personId} = data.item
         return (
             <PersonItem 
+                state = {styles.flatListContainer}
                 personName={name} 
                 personId={personId}
                 getPerson={this.getPerson}/>
@@ -44,5 +45,13 @@ class PeopleList extends Component   {
     }
 
 }
+
+const styles = StyleSheet.create({
+    flatListContainer: {
+        paddingLeft: 20,
+        marginHorizontal: 10,
+        borderBottomWidth: 0,
+    }
+})
 
 export  {PeopleList};
