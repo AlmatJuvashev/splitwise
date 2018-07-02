@@ -27,7 +27,6 @@ class AddPerson extends Component {
     
     return (
       <View>
-        <Text> Hello From AddPerson </Text>
         <CustomInput 
           title="Add your friend"
           placeholder="e.g. Almat"

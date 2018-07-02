@@ -13,17 +13,16 @@ import HeaderComponent from './Header';
 console.disableYellowBox = true; // Diable Yellow Box
 
 class HomeComponent extends Component {
+  
   onAddFriends = () => {
     Actions.addPerson()
   }
 
   renderPerson = (person) => {
-    console.log('Person from render list ', person);
     return <PersonInfo person={person} />
   }
 
   renderPeopleList = (peopleArr) => {
-    console.log('Render list',peopleArr);
     return (
       <FlatList 
       data={peopleArr}

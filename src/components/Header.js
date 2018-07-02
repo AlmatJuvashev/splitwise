@@ -39,53 +39,43 @@ const wrapper = (props) => {
 
 
 const HeaderComponent = (props) => {
-    dataset = wrapper(props);
+    const dataset = wrapper(props);
+    const { mainSection, secondarySection, textGreen, textRed } = styles
     return (
-      <View style={{flexDirection:'row'}}>
-          <Fragment>
+      <View style={mainSection}>
+          <View style={secondarySection}>
               <Text>you owe</Text>
               <Text>{dataset.ows}</Text>
-          </Fragment>
-          <Fragment>
+          </View>
+          <View style={secondarySection}>
               <Text>you are owed</Text>
               <Text>{dataset.owed}</Text>
-          </Fragment>
-          <Fragment>
-              <Text>Total balance</Text>
-              <Text>{dataset.total}</Text>
-          </Fragment>
+          </View>
+          <View style={secondarySection}>
+              <Text>total balance</Text>
+              <Text style={dataset.total >= 0 ? textGreen : textRed}>{dataset.total}</Text>
+          </View>
       </View>
     );
 }
 const styles = StyleSheet.create({
-    cardStyle: {
-      flex: 1,
+    
+    mainSection: {
       flexDirection: 'row',
-      justifyContent: 'space-between',
-      marginVertical: 10,
-      marginHorizontal: 10,
-      borderWidth: 1,
-      borderRadius: 2,
-      borderColor: '#ddd',
-      borderBottomWidth: 0,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2},
-      shadowOpacity: 0.1,
-      shadowRadius: 2,
-      paddingHorizontal: 10,
-      paddingVertical: 10,
-    },
-    mainTextStyle: {
-      fontSize: 20
-    },
-    textDanger: {
-      color: 'red'
-    },
-    textGreen: {
-      color: 'green'
+      justifyContent: 'space-around',
+      alignItems: 'center',
+      marginBottom: 10,
     },
     secondarySection: {
       flexDirection: 'column',
+      paddingVertical: 10,
+      alignItems: 'center',
+    },
+    textGreen: {
+        color: 'green'
+    },
+    textRed: {
+        color: 'red'
     }
   })
   

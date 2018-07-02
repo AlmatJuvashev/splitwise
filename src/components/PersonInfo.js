@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
-import _ from 'lodash'
+import _ from 'lodash';
+
+import { Card } from './common';
 
 class PersonInfo extends Component {
   
@@ -31,7 +33,7 @@ class PersonInfo extends Component {
     if (_.isNil(personData)) { 
       return {title: '', amount: ''}
     } else if (personData.ows > personData.owed) {
-      return {title: 'you ows', amount: personData.ows - personData.owed}
+      return {title: 'you owe', amount: personData.ows - personData.owed}
     } else if (personData.ows < personData.owed){
       return {title: 'you are owed', amount: personData.owed - personData.ows}
     } else {
@@ -43,12 +45,12 @@ class PersonInfo extends Component {
   render() {
     
     const {name, personId} = this.props.person.item
-    const { cardStyle, mainTextStyle, secondarySection, textDanger, textGreen } = styles
+    const { mainTextStyle, secondarySection, textDanger, textGreen } = styles
 
     const personData = this.wrapper();
-
+  
     return (
-      <View style={cardStyle}>
+      <Card cardStyle={1}>
         <TouchableWithoutFeedback onPress={() => Actions.personData({personId})}>
           <View data={this.wrapper()}>
             <Text style={mainTextStyle}>{name}</Text>
@@ -60,29 +62,12 @@ class PersonInfo extends Component {
             <Text style={personData.title === 'ows' ? textDanger : textGreen }>{personData.amount}</Text>
           </View>
         </TouchableWithoutFeedback>
-      </View>
+      </Card>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  cardStyle: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginVertical: 10,
-    marginHorizontal: 10,
-    borderWidth: 1,
-    borderRadius: 2,
-    borderColor: '#ddd',
-    borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
   mainTextStyle: {
     fontSize: 20
   },
