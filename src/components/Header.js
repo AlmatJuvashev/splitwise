@@ -1,47 +1,47 @@
-import React from 'react';
+import React, {Fragment} from 'react';
 import { View, Text,  StyleSheet} from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
 
-const wrapper = () => {
-    console.log('DATA is ADDED ',this.props.data)
-    if (_.isEmpty(this.props.data)) {
-        return {ows: 0, owed: 0}
-    }
-    let database =  this.props.data;
-    console.log('DATABASE:::', this.props.data);
-    let id = this.props.person.item.personId
-    console.log('ID:::', id);
-    let personData = database[id];
-    console.log('PERSON DATA:::', personData);
+const wrapper = (props) => {
+    
+    let database =  props.data;
+    let billSummaryArr = [];
+  
+    console.log('DATABASE:::', database);
+    console.log('Keys', Object.keys(database));
 
-    if (personData) {
-      personData = personData.reduce((acc, next) => {
-        if(next.direction === 'ows') {
-          acc.ows = next.amount
-        } else {
-          acc.owed = next.amount
-        }
+    billSummaryArr = Object.keys(database).map(key => {
+        console.log('Key', key);
+        return database[key].reduce((acc, next) => {
+            if (next.direction === 'owed') {
+                acc.owed = next.amount
+            } else if (next.direction === 'ows') {
+                acc.ows = next.amount
+            } 
+            acc.total = acc.owed - acc.ows;
+            return acc
+        }, {owed: 0, ows: 0 })
+    })
+    .reduce((acc, next) => {
+        acc.owed += next.owed;
+        acc.ows += next.ows;
+        acc.total += (next.owed - next.ows) ;
         return acc
-      }, {ows: 0, owed: 0})
-    }
+    }, {owed: 0, ows: 0, total: 0})
+    console.log(billSummaryArr);
 
-    console.log('PERSON DATA:::', personData)
-
-    if (_.isNil(personData)) { 
-      return {ows: 0, owed: 0};
-    } else {
-      return personData
-    }
-  }
+    return billSummaryArr
+}
+  
 
 
 
-const HeaderComponent = () => {
-    dataset = wrapper();
+const HeaderComponent = (props) => {
+    dataset = wrapper(props);
     return (
-      <View>
+      <View style={{flexDirection:'row'}}>
           <Fragment>
               <Text>you owe</Text>
               <Text>{dataset.ows}</Text>
@@ -52,7 +52,7 @@ const HeaderComponent = () => {
           </Fragment>
           <Fragment>
               <Text>Total balance</Text>
-              <Text>{dataset.owed - dataset.ows}</Text>
+              <Text>{dataset.total}</Text>
           </Fragment>
       </View>
     );

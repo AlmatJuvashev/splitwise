@@ -36,7 +36,7 @@ class HomeComponent extends Component {
   render() {
     return (
       <View style={{flex: 1, justifyContent:"flex-start"}}>
-        {/* <HeaderComponent /> */}
+        <HeaderComponent />
         {this.renderPeopleList(this.props.people)}
         <CustomBtn 
           name="Add Friends"

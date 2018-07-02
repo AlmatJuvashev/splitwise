@@ -50,14 +50,14 @@ class AddBill extends Component {
     
     if (this.state.paid === 1) {
       newArray = newArray.map(person => {
-        person.direction = 'ows';
+        person.direction = 'owed';
         return person
       })
         .filter(person => person.personId !== 1)
     } else {
       newArray = newArray
         .map(person => {
-        person.direction = 'owed';
+        person.direction = 'ows';
         return person
         })
         .filter(person => person.personId === this.state.paid)

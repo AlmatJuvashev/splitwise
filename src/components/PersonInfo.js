@@ -31,9 +31,9 @@ class PersonInfo extends Component {
     if (_.isNil(personData)) { 
       return {title: '', amount: ''}
     } else if (personData.ows > personData.owed) {
-      return {title: 'ows', amount: personData.ows - personData.owed}
+      return {title: 'you ows', amount: personData.ows - personData.owed}
     } else if (personData.ows < personData.owed){
-      return {title: 'owed', amount: personData.owed - personData.ows}
+      return {title: 'you are owed', amount: personData.owed - personData.ows}
     } else {
       return {title: 'settled up', amount: ''}
     }

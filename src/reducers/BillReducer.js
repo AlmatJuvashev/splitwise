@@ -2,11 +2,14 @@ import { ADD_BILL } from '../actions/types';
 
 const INITIAL_STATE = {
     billMap: {
-        ows: 0,
-        description: '',
-        direction: '',
-        name: ''
-
+        1: [
+            {
+                amount: 0,
+                description: '',
+                direction: 'tie',
+                name: 'You'
+            }
+        ]
     }
 }
 
