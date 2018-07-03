@@ -20,8 +20,8 @@ class PersonItem extends Component {
     }
     
     render () {
-        const {personName, personId} = this.props;
-        const IconObject = {name: 'check', color: 'green'}
+        const {personName, personId, checkBoxColor} = this.props;
+        const IconObject = {name: 'check', color: checkBoxColor}
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => this.onPress({personName, personId})}>

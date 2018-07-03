@@ -19,6 +19,7 @@ class PeopleList extends Component   {
         return (
             <PersonItem 
                 state = {styles.flatListContainer}
+                checkBoxColor={this.props.checkBoxColor}
                 personName={name} 
                 personId={personId}
                 getPerson={this.getPerson}/>

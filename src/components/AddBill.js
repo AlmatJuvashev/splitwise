@@ -75,13 +75,15 @@ class AddBill extends Component {
         <Fragment>
           <Text style={styles.paragraph}>Involved Friends</Text>
           <PeopleList 
+            checkBoxColor='red' 
             peopleArr={this.props.people}
             getPerson={(person) => this.setSelectedPeopleArray(person)}
         />
         </Fragment>
         <Fragment>
-          <Text>Who paid?</Text>
-          <PeopleList 
+          <Text style={styles.paragraph}>Who paid?</Text>
+          <PeopleList
+              checkBoxColor='green' 
               peopleArr={this.state.participated}
               getPerson={(person) => this.setPersonWhoPaid(person)}
           />
@@ -106,7 +108,10 @@ class AddBill extends Component {
 
 const styles = StyleSheet.create({
   paragraph: {
-
+    marginTop: 10,
+    marginBottom: 5,
+    color: "#A9A9A9",
+    marginHorizontal: 20,
   }
 })
 

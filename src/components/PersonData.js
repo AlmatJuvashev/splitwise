@@ -10,13 +10,15 @@ class PersonData extends Component {
     const personObjArr = this.props.data[this.props.personId];
     return personObjArr.map((obj) => {
         return (
-          <Card cardStyle={2}>
-            <Text>{obj.description}</Text>
-            <View>
-              <Text>{obj.amount}</Text>
-              <Text>{obj.direction}</Text>
-            </View>
-          </Card>
+          <View>
+            <Card cardStyle={2}>
+              <Text>{obj.description}</Text>
+              <View>
+                <Text>{obj.amount}</Text>
+                <Text>{obj.direction}</Text>
+              </View>
+            </Card>
+          </View>
         )
     });
   }

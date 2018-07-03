@@ -19,6 +19,7 @@ const CustomBtn = (props) => {
 const styles = StyleSheet.create({
     styleBtn: {
         backgroundColor: '#00E228',
+        marginTop: 15
     },
     disabledBtn: {
         backgroundColor: '#B6B4B6',
