@@ -35,7 +35,7 @@ class PeopleList extends Component   {
     
     render() {
         const {peopleArr} = this.props;
-        console.log('People List get Array', peopleArr);
+        
         return (
             <FlatList 
                 data={peopleArr}

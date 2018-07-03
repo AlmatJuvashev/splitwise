@@ -16,9 +16,9 @@ const wrapper = (props) => {
         console.log('Key', key);
         return database[key].reduce((acc, next) => {
             if (next.direction === 'owed') {
-                acc.owed = next.amount
+                acc.owed += next.amount
             } else if (next.direction === 'ows') {
-                acc.ows = next.amount
+                acc.ows += next.amount
             } 
             acc.total = acc.owed - acc.ows;
             return acc
@@ -80,8 +80,8 @@ const styles = StyleSheet.create({
   })
   
   const mapStateToProps = state => {
-    console.log('BILLS added', state.bills.billMap);
-    return { data: state.bills.billMap };
+    console.log('BILLS added HEADER', state.bills);
+    return { data: state.bills };
   }
   
 export default connect(mapStateToProps)(HeaderComponent);

@@ -24,7 +24,7 @@ class PersonData extends Component {
   }
   
   render() {
-    console.log('PERSON DATA', this.props.personId);
+
     return (
       <Fragment>
         {this.displayPersonInfo()}
@@ -34,8 +34,8 @@ class PersonData extends Component {
 }
 
 const mapStateToProps = state => {
-  console.log('BILLS added', state.bills.billMap);
-  return { data: state.bills.billMap };
+
+  return { data: state.bills };
 }
 
 export default connect(mapStateToProps)(PersonData);

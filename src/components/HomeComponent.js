@@ -57,10 +57,18 @@ class HomeComponent extends Component {
 
 const mapStateToProps = state => {
 
-  const people = _.map(state.people, (val, personId) => {
-    return { ...val, personId}
+  let people = {}
+  Object.keys(state.bills).map(key => {
+    if (key != 1) {
+      people[key] = state.bills[key]
+    }
+  });
+
+  people = _.map(people, (val, personId) => {
+    return { ...val[0], personId}
   })
 
+  console.log('PEOPLE FROM HOMECOMPONENT:::', people);
   return { people };
 }
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 
 import {CustomBtn, CustomInput} from './common';
-import { personUpdate } from '../actions';
+import { personUpdate, addPerson } from '../actions';
 
 
 
@@ -14,6 +14,11 @@ class AddPerson extends Component {
   disableButton = false
   onAddPerson = () => {
     this.props.personUpdate({personId: new Date().getTime(), name: this.personName});
+    this.props.addPerson({
+      personId: new Date().getTime(), 
+      name: this.personName,
+    });
+
     Actions.main()
   }
 
@@ -46,4 +51,4 @@ const mapStateToProps = state => {
   return state.people
 }
 
-export default connect(mapStateToProps, {personUpdate})(AddPerson);
+export default connect(mapStateToProps, {personUpdate, addPerson})(AddPerson);

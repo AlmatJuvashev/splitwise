@@ -64,6 +64,7 @@ class AddBill extends Component {
     }
 
     newObj = _.keyBy(newArray, 'personId');
+    console.log('NEW OBJECT CREATED ADD BILL:::', newObj);
     this.props.addBill(newObj);
     Actions.main()
 }
@@ -116,10 +117,19 @@ const styles = StyleSheet.create({
 })
 
 const mapStateToProps = state => {
+  
+  let people = {}
+  Object.keys(state.bills).map(key => {
+    if (key != 1) {
+      people[key] = state.bills[key]
+    }
+  });
 
-  const people = _.map(state.people, (val, personId) => {
-    return { ...val, personId}
+  people = _.map(people, (val, personId) => {
+    return { ...val[0], personId}
   })
+
+  console.log('PEOPLE FROM BILL:::', people);
   return { people };
 }
 
