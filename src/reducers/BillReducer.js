@@ -1,6 +1,7 @@
-import { ADD_BILL, ADD_PEOPLE } from '../actions/types';
+import { ADD_BILL, ADD_PEOPLE, CHECK_STATUS } from '../actions/types';
 
 const INITIAL_STATE = {
+    BillsMap: {
         1: [
             {
                 amount: 0,
@@ -9,7 +10,9 @@ const INITIAL_STATE = {
                 name: 'You'
             }
         ]
-    }
+    },
+    checkedItem: false
+}
 
 export default (state=INITIAL_STATE, action) => {
     console.log(action)
@@ -22,26 +25,27 @@ export default (state=INITIAL_STATE, action) => {
                 amount: 0
             }
 
+            newBillsMap = {...state.BillsMap, [action.payload.personId]: [newObj]}
+
             return {
                 ...state,
-                [action.payload.personId]: [newObj]
+                BillsMap: newBillsMap
             }
-        case ADD_BILL:
-            Object.keys(action.payload).map(key => {
-                state[key] = [...state[key], action.payload[key]]
-            });
-            
-            // Object.keys(billObj).map(key => {
-            //     if(!newBillMap[key]) {
-            //         newBillMap[key] = [billObj[key]]
-            //     } else {
-            //         newBillMap[key] = [...newBillMap[key], billObj[key]]
-            //     }
-            // })
 
+        case ADD_BILL:
+            newBillsMap = {...state.BillsMap}
+            Object.keys(action.payload).map(key => {
+                newBillsMap[key] = [...newBillsMap[key], action.payload[key]]
+            });
         
             return { 
-                ...state
+                ...state,
+                BillsMap: newBillsMap
+            }
+        case CHECK_STATUS:
+            return {
+                ...state,
+                checkedItem: !state.checkedItem
             }
         default:
             return state;

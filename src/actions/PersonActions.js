@@ -1,4 +1,4 @@
-import {ADD_PERSON, ADD_PEOPLE} from './types';
+import {ADD_PERSON, ADD_PEOPLE, CHECK_STATUS} from './types';
 import { ADD_BILL } from './types';
 
 
@@ -20,5 +20,11 @@ export const addPerson = (value) => {
     return {
         type: ADD_PEOPLE,
         payload: value
+    }
+}
+
+export const checkStatus = () => {
+    return {
+        type: CHECK_STATUS,
     }
 }

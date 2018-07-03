@@ -4,23 +4,20 @@ import { View, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import { ListItem } from 'react-native-elements'
 
 
-
-
-class PersonItem extends Component {
+class PersonItemBill extends Component {
     state = {
-        hideChevron: true,
+        hideChevron: this.props.data.checked,
     }
-    selected = false
-    onPress = async ({name, personId}) => {
-        this.selected = !this.selected;
-        await this.setState({hideChevron: !this.state.hideChevron})
-        this.props.getPerson({name, personId, checked: false, selected: this.selected});     
+
+    onPress =  ({name, personId}) => {
+        this.props.getPerson({name, personId, checked: true});
     }
     
     render () {
+        const {name, personId, checked } = this.props.data;
         const {checkBoxColor} = this.props;
-        const {name, personId} = this.props.data;
         const IconObject = {name: 'check', color: checkBoxColor}
+        console.log('Name:::', name, 'ID:::', personId, 'Checked::::',this.props.data.checked)
         return (
             <View>
                 <TouchableWithoutFeedback onPress={() => this.onPress({name, personId})}>
@@ -28,7 +25,7 @@ class PersonItem extends Component {
                           key={personId}
                           title={name}
                           rightIcon={IconObject}
-                          hideChevron={this.state.hideChevron}
+                          hideChevron={!checked}
                       />
                   </TouchableWithoutFeedback>
             </View>
@@ -42,4 +39,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export {PersonItem}
+export {PersonItemBill}

@@ -9,11 +9,7 @@ const wrapper = (props) => {
     let database =  props.data;
     let billSummaryArr = [];
   
-    console.log('DATABASE:::', database);
-    console.log('Keys', Object.keys(database));
-
     billSummaryArr = Object.keys(database).map(key => {
-        console.log('Key', key);
         return database[key].reduce((acc, next) => {
             if (next.direction === 'owed') {
                 acc.owed += next.amount
@@ -30,7 +26,7 @@ const wrapper = (props) => {
         acc.total += (next.owed - next.ows) ;
         return acc
     }, {owed: 0, ows: 0, total: 0})
-    console.log(billSummaryArr);
+
 
     return billSummaryArr
 }
@@ -80,8 +76,7 @@ const styles = StyleSheet.create({
   })
   
   const mapStateToProps = state => {
-    console.log('BILLS added HEADER', state.bills);
-    return { data: state.bills };
+    return { data: state.bills.BillsMap };
   }
   
 export default connect(mapStateToProps)(HeaderComponent);

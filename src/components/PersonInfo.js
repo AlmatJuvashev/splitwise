@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import {withNavigation} from 'react-navigation';
+
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -13,7 +14,6 @@ class PersonInfo extends Component {
     let database =  this.props.data;
     let id = this.props.person.item.personId
     let personData = database[id];
-    console.log('PERSON DATA:::PERSON-INFO', personData);
 
       personData = personData.reduce((acc, next) => {
         if(next.direction === 'ows') {
@@ -24,8 +24,6 @@ class PersonInfo extends Component {
         return acc
       }, {ows: 0, owed: 0})
 
-
-    console.log('PERSON DATA:::', personData)
 
     if (_.isNil(personData)) { 
       return {title: '', amount: ''}
@@ -48,12 +46,12 @@ class PersonInfo extends Component {
   
     return (
       <Card cardStyle={1}>
-        <TouchableWithoutFeedback onPress={() => Actions.personData({personId})}>
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('PersonData', {personId: personId})}>
           <View data={this.wrapper()}>
             <Text style={mainTextStyle}>{name}</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={() => Actions.personData({personId})}>
+        <TouchableWithoutFeedback onPress={() => this.props.navigation.navigate('PersonData', {personId: personId})}>
           <View style={secondarySection}>
             <Text style={personData.title === 'ows' ? textDanger : textGreen }>{personData.title}</Text>
             <Text style={personData.title === 'ows' ? textDanger : textGreen }>{personData.amount}</Text>
@@ -81,10 +79,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   console.log('BILLS added to PERSON INFO', state.bills);
-    return { data: state.bills };
+    return { data: state.bills.BillsMap };
 }
 
-export default connect(mapStateToProps)(PersonInfo);
+export default withNavigation(connect(mapStateToProps)(PersonInfo));
 
 
 

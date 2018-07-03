@@ -1,20 +1,26 @@
 import React, { Component, Fragment } from 'react';
-import { View, Text, StyleSheet  } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView  } from 'react-native';
 import _ from 'lodash';
-import { Actions } from 'react-native-router-flux'
+
 
 import { connect } from 'react-redux';
-import {CustomBtn, CustomInput, PeopleList} from './common';
+import {CustomBtn, CustomInput, PeopleList, PeopleListBills} from './common';
 import { addBill } from '../actions';
 
 
 class AddBill extends Component {
+
   state = {
-    participated: [{personId: 1, name: 'You'}],
+    participated: [{personId: 1, name: 'You', checked: false, selected: true}],
     paid: null,
     amount: 1,
     description: '',
+    disableButton: true
   }
+
+  static navigationOptions = {
+    title: 'Add a person',
+  };
 
   setSelectedPeopleArray =  (person) => {
     const newArray = this.state.participated.filter(personObj => personObj.personId !== person.personId);
@@ -23,15 +29,30 @@ class AddBill extends Component {
   }
 
   setPersonWhoPaid =  (person) => {
-    this.setState({paid: person.personId});
+    // Change participated state
+    const newParticipatedArr = this.state.participated.map(item => {
+      if (item.personId === person.personId) {
+        return {...item, checked: true}
+      } 
+      return {...item, checked: false }
+    })
+
+    // Find person who paid
+    this.setState({paid: person.personId, participated: newParticipatedArr});
   }
 
   getCheckPerPerson = (amount) => {
-     this.setState({amount: amount});
+     this.setState({amount: amount}); 
+     if(this.state.description.length > 1 ) {
+      this.setState({disableButton: false}); 
+     }
   }
 
   getDescription = (description) => {
      this.setState({description});
+     if(this.state.amount > 0 ) {
+      this.setState({disableButton: false}); 
+     }
   }
 
   
@@ -64,44 +85,49 @@ class AddBill extends Component {
     }
 
     newObj = _.keyBy(newArray, 'personId');
-    console.log('NEW OBJECT CREATED ADD BILL:::', newObj);
     this.props.addBill(newObj);
-    Actions.main()
+    this.props.navigation.goBack();
 }
 
 
   render() {
+    console.log('STATE-BILL:::', this.state.paid)
     return (
-      <View>
-        <Fragment>
-          <Text style={styles.paragraph}>Involved Friends</Text>
-          <PeopleList 
-            checkBoxColor='red' 
-            peopleArr={this.props.people}
-            getPerson={(person) => this.setSelectedPeopleArray(person)}
-        />
-        </Fragment>
-        <Fragment>
-          <Text style={styles.paragraph}>Who paid?</Text>
-          <PeopleList
-              checkBoxColor='green' 
-              peopleArr={this.state.participated}
-              getPerson={(person) => this.setPersonWhoPaid(person)}
+      <KeyboardAvoidingView
+        behavior="position"
+        contentContainerStyle={{ flex: 1 }}
+        style={{ flex: 1 }}>
+        <View>
+          <Fragment>
+            <Text style={styles.paragraph}>Involved Friends</Text>
+            <PeopleList 
+              checkBoxColor='red' 
+              peopleArr={this.props.people}
+              getPerson={(person) => this.setSelectedPeopleArray(person)}
           />
-        </Fragment>
-        <CustomInput 
-          placeholder="Bill"
-          onChangeText={(value) => this.getCheckPerPerson(parseInt(value))}/>
+          </Fragment>
+          <Fragment>
+            <Text style={styles.paragraph}>Who paid?</Text>
+            <PeopleListBills
+                checkBoxColor='green' 
+                peopleArr={this.state.participated}
+                getPerson={(person) => this.setPersonWhoPaid(person)}
+            />
+          </Fragment>
           <CustomInput 
-          placeholder="Description"
-          onChangeText={(value) => this.getDescription(value)}/>
+            placeholder="Bill"
+            onChangeText={(value) => this.getCheckPerPerson(parseInt(value))}/>
+            <CustomInput 
+            placeholder="Description"
+            onChangeText={(value) => this.getDescription(value)}/>
 
-        <CustomBtn 
-            name="Calculate the Bill"
-            raised={true}
-            disabled={this.disableButton}
-            onPress={() => this.calculateBill()}/>
-      </View>
+          <CustomBtn 
+              name="Calculate the Bill"
+              raised={true}
+              disabled={this.state.disableButton}
+              onPress={() => this.calculateBill()}/>
+        </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -119,9 +145,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   
   let people = {}
-  Object.keys(state.bills).map(key => {
+  Object.keys(state.bills.BillsMap).map(key => {
     if (key != 1) {
-      people[key] = state.bills[key]
+      people[key] = state.bills.BillsMap[key]
     }
   });
 
@@ -129,7 +155,9 @@ const mapStateToProps = state => {
     return { ...val[0], personId}
   })
 
-  console.log('PEOPLE FROM BILL:::', people);
+  people = people.map(item => {
+    return {...item, selected: false}
+  })
   return { people };
 }
 

@@ -1,36 +1,37 @@
 import React, { Component } from 'react';
 import { FlatList, StyleSheet  } from 'react-native';
-import { PersonItem } from '../common';
+import { PersonItemBill } from '../common';
 
 
-const getPersonId = (id) => {
-    return id;
-}
 
-class PeopleList extends Component   {
+class PeopleListBills extends Component   {
+
+
 
     renderPerson = (data) => {
-        console.log('RENDERED DATA IN ITEM:::', data.item);
-        const {name, personId} = data.item
+
+       console.log('RENDERED DATA IN ITEM:::BILLS---2', data.item);
+        
         return (
-            <PersonItem 
+            <PersonItemBill 
                 checkBoxColor={this.props.checkBoxColor}
                 data={data.item}
                 getPerson={this.getPerson}/>
         )
     }
 
-    getPerson =  (person) => {
+    getPerson = (person) => {
         this.props.getPerson(person);
     }
 
     
     render() {
-    
+        console.log('RENDERED DATA IN ITEM:::BILLS---1', this.props.peopleArr);
+        data = this.props.peopleArr.filter(item => item.selected)
         
         return (
             <FlatList 
-                data={this.props.peopleArr}
+                data={data}
                 renderItem={this.renderPerson}
                 keyExtractor={(item) => item.personId.toString()}
             />
@@ -47,4 +48,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export  {PeopleList};
+export  {PeopleListBills};

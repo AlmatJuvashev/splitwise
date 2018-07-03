@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { Icon, Fab } from 'native-base';
 
-import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -13,9 +12,12 @@ import HeaderComponent from './Header';
 console.disableYellowBox = true; // Diable Yellow Box
 
 class HomeComponent extends Component {
+  static navigationOptions = {
+    title: 'Splitwise',
+  };
 
   onAddFriends = () => {
-    Actions.addPerson()
+    this.props.navigation.navigate('AddPerson');
   }
 
   renderPerson = (person) => {
@@ -46,7 +48,7 @@ class HomeComponent extends Component {
             <Fab 
                 position='bottomRight'
                 style={{backgroundColor: '#5067FF'}}
-                onPress={() => Actions.bill()}> 
+                onPress={() => this.props.navigation.navigate('AddBill')}> 
             <Icon name="add" style={{color: 'yellowgreen', fontSize: 30}} />
             </Fab>
           </View>
@@ -58,9 +60,9 @@ class HomeComponent extends Component {
 const mapStateToProps = state => {
 
   let people = {}
-  Object.keys(state.bills).map(key => {
+  Object.keys(state.bills.BillsMap).map(key => {
     if (key != 1) {
-      people[key] = state.bills[key]
+      people[key] = state.bills.BillsMap[key]
     }
   });
 
@@ -68,7 +70,6 @@ const mapStateToProps = state => {
     return { ...val[0], personId}
   })
 
-  console.log('PEOPLE FROM HOMECOMPONENT:::', people);
   return { people };
 }
 

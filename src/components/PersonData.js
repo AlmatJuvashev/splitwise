@@ -7,7 +7,11 @@ import {Card} from './common';
 class PersonData extends Component {
 
   displayPersonInfo = () => {
-    const personObjArr = this.props.data[this.props.personId];
+    let id = this.props.navigation.getParam('personId', '');
+    let personArr = this.props.data[id];
+    
+    let personObjArr = personArr.filter(person => person.direction !== 'tie');
+    
     return personObjArr.map((obj) => {
         return (
           <View>
@@ -34,8 +38,8 @@ class PersonData extends Component {
 }
 
 const mapStateToProps = state => {
-
-  return { data: state.bills };
+  console.log('PERSON DATA:::', state.bills.BillsMap)
+  return { data: state.bills.BillsMap };
 }
 
 export default connect(mapStateToProps)(PersonData);
